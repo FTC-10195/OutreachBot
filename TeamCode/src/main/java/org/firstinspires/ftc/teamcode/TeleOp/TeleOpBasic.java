@@ -24,7 +24,7 @@ public class TeleOpBasic extends LinearOpMode{
             double slidepower = gamepad1.right_trigger - (gamepad1.left_trigger);
             boolean resetslide = gamepad1.options;
             driveTrain.move(x,y,rx);
-            arm.slides(slidepower,telemetry);
+            arm.slides(slidepower,resetslide,telemetry);
         }
     }
 }

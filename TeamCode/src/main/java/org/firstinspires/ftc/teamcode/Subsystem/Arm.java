@@ -12,14 +12,17 @@ public class Arm{
         slideMotor.setTargetPosition(0);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public void slides(double power, Telemetry telemetry){
+    public void slides(double power, boolean reset, Telemetry telemetry){
         int max = 4474;
         double CPR = 537.7;
+
         // Get the current position of the motor
         int position = slideMotor.getCurrentPosition();
         double revolutions = position/CPR;
+
         double angle = revolutions * 360;
         double angleNormalized = angle % 360;
+
         // Show the position of the motor on telemetry
         telemetry.addData("Encoder Position", position);
         telemetry.addData("Encoder Revolutions", revolutions);
@@ -36,5 +39,8 @@ public class Arm{
         }
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slideMotor.setPower(power);
+        if (reset){
+            slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
     }
 }
