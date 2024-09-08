@@ -30,19 +30,23 @@ public class Arm{
         telemetry.addData("Encoder Angle - Normalized (Degrees)", angleNormalized);
         telemetry.addData("power", slideMotor.getPower());
         telemetry.update();
-
         if (power > 0 && position < max){
             slideMotor.setTargetPosition(max);
             slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            slideMotor.setPower(Math.abs(power));
         } else if (power < 0 && position > 0){
             slideMotor.setTargetPosition(0);
             slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            slideMotor.setPower(Math.abs(power));
         } else if (power == 0){
-            slideMotor.setPower(power);
             slideMotor.setTargetPosition(position);
-            slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        //Add a manual/emergency overide to the previous restrictions made
+        //Stop the motor from spinning if the slide is at the targeted position
+        //When using RunMode.RUN_TO_POSITION, the power of a motor represents the maximum power it can spin at
+        if (position != slideMotor.getTargetPosition()){
+            slideMotor.setPower((power));
+        } else {
+            slideMotor.setPower(0);
         }
     }
 }
