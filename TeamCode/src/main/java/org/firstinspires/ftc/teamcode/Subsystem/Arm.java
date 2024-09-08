@@ -15,14 +15,11 @@ public class Arm{
     public void slides(double power, Telemetry telemetry){
         int max = 4474;
         double CPR = 537.7;
-
         // Get the current position of the motor
         int position = slideMotor.getCurrentPosition();
         double revolutions = position/CPR;
-
         double angle = revolutions * 360;
         double angleNormalized = angle % 360;
-
         // Show the position of the motor on telemetry
         telemetry.addData("Encoder Position", position);
         telemetry.addData("Encoder Revolutions", revolutions);
@@ -32,21 +29,12 @@ public class Arm{
         telemetry.update();
         if (power > 0 && position < max){
             slideMotor.setTargetPosition(max);
-            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else if (power < 0 && position > 0){
             slideMotor.setTargetPosition(0);
-            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else if (power == 0){
             slideMotor.setTargetPosition(position);
-            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        //Add a manual/emergency overide to the previous restrictions made
-        //Stop the motor from spinning if the slide is at the targeted position
-        //When using RunMode.RUN_TO_POSITION, the power of a motor represents the maximum power it can spin at
-        if (position != slideMotor.getTargetPosition()){
-            slideMotor.setPower((power));
-        } else {
-            slideMotor.setPower(0);
-        }
+        slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideMotor.setPower(power);
     }
 }
