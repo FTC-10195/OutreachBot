@@ -12,8 +12,8 @@ public class Arm{
         slideMotor.setTargetPosition(0);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public void slides(double power, boolean reset, Telemetry telemetry){
-        int max = 4474;
+    public void slides(double power, boolean reset, boolean overide, Telemetry telemetry){
+        int max = 3709;
         double CPR = 537.7;
 
         // Get the current position of the motor
@@ -37,10 +37,14 @@ public class Arm{
         } else if (power == 0){
             slideMotor.setTargetPosition(position);
         }
-        slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slideMotor.setPower(power);
-        if (reset){
+        if (reset && power == 0){
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
+        if (!overide) {
+            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        slideMotor.setPower(power);
     }
 }
