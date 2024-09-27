@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.Arm;
 import org.firstinspires.ftc.teamcode.Subsystem.DriveTrain;
 
 @TeleOp
-public class TeleOpBasic extends LinearOpMode{
+public class TeleOpBasic extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,10 +22,8 @@ public class TeleOpBasic extends LinearOpMode{
             double x = gamepad1.left_stick_x * 1.1;
             double rx = gamepad1.right_stick_x;
             double slidepower = gamepad1.right_trigger - (gamepad1.left_trigger);
-            boolean resetslide = gamepad1.options;
-            boolean overideslide = gamepad1.share;
-            driveTrain.move(x,y,rx);
-            arm.slides(slidepower,resetslide, overideslide,telemetry);
+            driveTrain.move(x, y, rx);
+            arm.slides(slidepower);
         }
     }
 }
