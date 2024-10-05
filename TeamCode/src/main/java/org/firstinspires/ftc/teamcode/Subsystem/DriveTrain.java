@@ -23,9 +23,11 @@ public class DriveTrain {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-
-    public void move(double x, double y, double rx) {
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+    public void move(double x, double y, double rx, boolean slow) {
+        double denominator = 1;
+        if (slow){
+            denominator = 2;
+        }
         frontLeftMotor.setPower((y + x + rx) / denominator);
         backLeftMotor.setPower((y - x + rx) / denominator);
         frontRightMotor.setPower((y - x - rx) / denominator);
